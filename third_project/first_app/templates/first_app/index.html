@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel = "stylesheet" href = "{% static 'first_app/css/first.css' %}"/>
+  </head>
+  <body>
+    <h1>we are inside app</h1>
+    <h1>Author name : {{name}}</h1>
+    <img src="{% static 'first_app/images/image1.jpg' %}" alt="bird">
+    <!-- {% if age >= 18 %}
+    <p>vai tumi driving license nite parba</p>
+    {% else %}
+    <p>tumi ekta sishu. basay jao</p>
+    {% endif %} -->
+    <!-- {% if marks >= 80 %}
+    <p>vai tumi golden A+ paicho</p>
+    {% elif marks >= 70 and marks <= 79 %}
+    <p>vai tumi A paicho</p>
+    {% elif marks >= 40 and marks <= 69 %}
+    <p>vai tumi pass korcho</p>
+    {% else %}
+    <p>vai tumi fail korcho</p>
+    {% endif %} -->
+
+    <!-- <table border="1" width = 500>
+      <tr>
+        <th>ID</th>
+        <th>Course</th>
+        <th>Teacher</th>
+      </tr>
+      
+        {% for i in courses %}
+        <tr>
+          <td>{{i.id}}</td>
+          <td>{{i.course}}</td>
+          <td>{{i.teacher}}</td>
+          </tr>
+        {% endfor %}
+      
+    </table> -->
+
+    <!-- Filters in DTL -->
+
+
+    <!-- Add value -->
+    <h1>{{marks | add:"2" }}</h1>
+    <!-- Divisible Check -->
+    <h1>{{marks | divisibleby:"2" }}</h1>
+    <!-- Length -->
+    <h1>{{name | length }}</h1>
+    <!-- Word Count -->
+    <h1>{{name | wordcount }}</h1>
+    <!-- Truncate words -->
+    <h1>{{blog |truncatewords:5 }}</h1>
+    <h1>{{blog |truncatechars:20 }}</h1>
+    <!-- Make List -->
+    <h1>{{name | make_list  }}</h1>
+    <!-- Upper Case -->
+    <h1>{{name | upper  }}</h1>
+    <!-- Lower Case -->
+    <h1>{{name | lower  }}</h1>
+    <!-- Join -->
+    <!-- join:" // " -->
+    <h1>{{lst | join:","  }}</h1>
+  </body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Book Store Management</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
+      crossorigin="anonymous"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+
+  <body>
+    <form id="add-book-form" style="width: 50%; margin: auto">
+      <h2>Add a Book</h2>
+      <div class="mb-3">
+        <label for="id" class="form-label">Id </label>
+        <input type="number" class="form-control" id="id" required />
+      </div>
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" class="form-control" id="title" required />
+      </div>
+      <div class="mb-3">
+        <label for="author" class="form-label">Author</label>
+        <input type="text" class="form-control" id="author" required />
+      </div>
+      <div class="mb-3">
+        <label for="category" class="form-label">Category:</label>
+        <select
+          class="form-select"
+          id="category"
+        >
+          <option value="Mystery">Mystery</option>
+          <option value="Thriller">Thriller</option>
+          <option value="Sci-Fi">Sci-Fi</option>
+          <option value="Humor">Humor</option>
+          <option value="Horror">Horror</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Add Book</button>
+    </form>
+
+    <div class="mx-3">
+      <h2>Book List</h2>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">#ID</th>
+            <th scope="col">Book Name</th>
+            <th scope="col">Author Name</th>
+            <th scope="col">Category</th>
+            <th scope="col">First Publicaiton</th>
+            <th scope="col">Last Publicaiton</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody id="book-list">
+          <tr></tr>
+        </tbody>
+      </table>
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      $(document).ready(function () {
+        const apiUrl = "http://127.0.0.1:8000/api/books/";
+
+        function fetchBooks() {
+          $.get(apiUrl, function (data) {
+            $("#book-list").empty();
+            data.forEach(function (book) {
+              $("#book-list").append(`
+                            <tr>
+                              <td>
+                                ${book.id}
+                              </td> 
+                              <td>
+                                ${book.book_name}
+                              </td> 
+                              <td> ${book.author}
+                              </td> 
+                              <td> ${book.category}</td>
+                              <td> ${book.first_pub}</td>
+                              <td> ${book.last_pub}</td>
+                              <td>
+                                <button class="btn btn-sm btn-warning update-button" data-id="${book.id}">Update</button>
+                                <button class="btn btn-sm btn-danger delete-button" data-id="${book.id}">Delete</button>
+                            </td>
+                            </tr>
+                        `);
+            });
+
+            $(".update-button").click(function () {
+              const bookId = $(this).data("id");
+              console.log(bookId)
+              const newTitle = prompt("Enter new title:");
+              const newAuthor = prompt("Enter new author:");
+              const newCategory = prompt("Enter new category:");
+              if (newTitle && newAuthor && newCategory) {
+                const updateUrl = apiUrl + bookId + "/";
+                $.ajax({
+                  url: updateUrl,
+                  type: "PUT",
+                  data: {
+                    id : bookId,
+                    book_name: newTitle,
+                    author: newAuthor,
+                    category: newCategory,
+                  },
+                  success: function () {
+                    fetchBooks();
+                  },
+                });
+              }
+            });
+
+            $(".delete-button").click(function () {
+              const bookId = $(this).data("id");
+              const deleteUrl = apiUrl + bookId + "/";
+              $.ajax({
+                url: deleteUrl,
+                type: "DELETE",
+                success: function () {
+                  fetchBooks();
+                },
+              });
+            });
+          });
+        }
+
+        fetchBooks();
+
+        $("#add-book-form").submit(function (e) {
+          e.preventDefault();
+
+          const id = $("#id").val();
+          const title = $("#title").val();
+          const author = $("#author").val();
+          const category = $("#category").val();
+
+          $.post(
+            apiUrl,
+            {
+              id: id,
+              book_name: title,
+              author: author,
+              category: category,
+            },
+            function (data) {
+              $("#title").val("");
+              $("#author").val("");
+              $("#category").val("");
+              fetchBooks();
+            }
+          );
+        });
+      });
+    </script>
+  </body>
+</html>

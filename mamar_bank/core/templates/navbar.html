@@ -12,17 +12,17 @@
     <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto px-10">
         {% if request.user.is_authenticated %}
             <div class="text-md lg:flex-grow">
-                <a href="" class="block mt-4 lg:inline-block lg:mt-0 text-blue-900 hover:text-red-900 hover:font-black mr-4">
+                <a href="{% url 'transaction_report' %}" class="block mt-4 lg:inline-block lg:mt-0 text-blue-900 hover:text-red-900 hover:font-black mr-4">
                     Report
                 </a>
-                <a href="" class="block mt-4 lg:inline-block lg:mt-0 text-blue-900 hover:text-red-900 hover:font-black mr-4">
+                <a href="{% url 'deposit_money' %}" class="block mt-4 lg:inline-block lg:mt-0 text-blue-900 hover:text-red-900 hover:font-black mr-4">
                     Deposit
                 </a>
-                <a href="" class="block mt-4 lg:inline-block lg:mt-0 text-blue-900 hover:text-red-900 hover:font-black mr-4">
+                <a href="{% url 'withdraw_money' %}" class="block mt-4 lg:inline-block lg:mt-0 text-blue-900 hover:text-red-900 hover:font-black mr-4">
                     Withdraw
                 </a>
-                <a href="" class="block mt-4 lg:inline-block lg:mt-0 text-blue-900 hover:text-red-900 hover:font-black mr-4">
-                    Loan Details
+                <a href="{% url 'loan_request' %}" class="block mt-4 lg:inline-block lg:mt-0 text-blue-900 hover:text-red-900 hover:font-black mr-4">
+                    Loan Request
                 </a>
             </div>
             <div class="flex w-auto">
